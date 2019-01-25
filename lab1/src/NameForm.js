@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: '', nameAvailable:false, isValid:true};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,17 +13,18 @@ class NameForm extends React.Component {
   }
 
   handleSubmit(event) {
+
     let Name = this.state.value;
     let letters = /^[A-Za-z]+$/;
-      if(Name.match(letters))
+      if(letters.test(this.state.value))
       {
-      document.write("Hello My First User:" + " " + Name);
-      return true;
+        this.setState({nameAvailable:true});
+
       }
       else
       {
-      alert('the user used non-ascii characters');
-      return false;
+        this.setState({isValid:false});
+
       }
 
 
@@ -31,8 +32,10 @@ class NameForm extends React.Component {
   }
 
   render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
+    let returnArray = []
+    if(!this.state.nameAvailable) {
+      returnArray.push(
+      <form onSubmit={this.handleSubmit} key = "main">
         <label>
           Name:
           <input type="text" value={this.state.value} onChange={this.handleChange} />
@@ -40,7 +43,13 @@ class NameForm extends React.Component {
         <input type="submit" value="Submit" />
       </form>
     );
+    if(!this.state.isValid)
+    returnArray.push(
+      <p key = "error" class = "errortext"> Must be a valid a-z or A-Z and non-ascii characters</p>
+    );
+    return returnArray;
+  }else {
+    return (<div> Hello, My first user: {this.state.value}</div>);
+  }
   }
 }
-
-    export default NameForm;
