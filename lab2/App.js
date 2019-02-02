@@ -1,49 +1,54 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity} from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View, TextInput, Button } from 'react-native';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', nameAvailable:false, Valid:true};
-
+    this.state = {value:'', nameAvailable:false, isValid:true}
     this.onPress = this.onPress.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
-  onChange(event) {
-    console.log(event);
+  onChange = (text) => {
+    this.setState({value: text});
   }
 
   onPress(event) {
 
-    const format = /^[A-Za-z]+$/;
-
-    if(format.test(this.state.value))
-    {
-      this.setState({nameAvailable:true});
-
-    }
-    else
-    {
-      this.setState({Valid:false});
-
-    }
-
-
-  event.preventDefault();
-
-    console.log("Pressed");
+    if(/^[A-Za-z]+$/.test(this.state.value))
+  {
+    this.setState({nameAvailable:true});
 
   }
+  else
+  {
+    this.setState({isValid:false});
+
+  }
+
+
+event.preventDefault();
+  }
+
   render() {
 
-          return (
-      <View style={styles.container} flexDirection="column" alignItems='stretch'>
-        <View><TextInput style={styles.textInput} onChangeText={this.onChange} placeholder="Enter your name"></TextInput></View>
-        <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
-        {!this.state.valid ? (<Text style={styles.defaultText}>Must be a valid a-z or A-Z and non-ascii characters</Text>) : null}
-      </View>
+    let returnArray = []
+    if(!this.state.nameAvailable) {
+      returnArray.push(
 
+      <View key = "1" style={styles.container} flexDirection="column" alignItems='stretch'>
+        <View><TextInput key = "3" style={styles.textInput} value={this.state.value} onChangeText={this.onChange} placeholder="Enter your name"></TextInput></View>
+        <TouchableOpacity key = "2" style={styles.buttonStyle} onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
+      </View>
     );
+    if(!this.state.isValid)
+    returnArray.push(
+      <Text key = "error" style={styles.error}> Must be a valid a-z or A-Z and non-ascii characters</Text>
+    );
+    return returnArray;
+  }else {
+    return (<View><Text style={styles.right}> Hello, My first user: {this.state.value}</Text></View>);
   }
+}
 }
 
 const styles = StyleSheet.create({
@@ -66,9 +71,21 @@ const styles = StyleSheet.create({
     height:75,
     fontSize:20
   },
+  error:
+  {
+color: "red",
+margin:30,
+height:75,
+fontSize:20
+  },
+  right:
+  {
+    margin:30,
+    height:75,
+    fontSize:20
+  },
   defaultText:
   {
-    color:"red",
     fontSize:20
   },
   container: {

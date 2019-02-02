@@ -16,7 +16,7 @@ class NameForm extends React.Component {
 
     let Name = this.state.value;
     let letters = /^[A-Za-z]+$/;
-      if(letters.test(this.state.value))
+      if(l/^[A-Za-z]+$/.test(this.state.value))
       {
         this.setState({nameAvailable:true});
 
@@ -35,21 +35,21 @@ class NameForm extends React.Component {
     let returnArray = []
     if(!this.state.nameAvailable) {
       returnArray.push(
-      <form onSubmit={this.handleSubmit} key = "main">
+      <View><form onSubmit={this.handleSubmit} key = "main">
         <label>
-          Name:
+          <View>Name:</View>
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
-      </form>
+      </form></View>
     );
     if(!this.state.isValid)
     returnArray.push(
-      <p key = "error" class = "errortext"> Must be a valid a-z or A-Z and non-ascii characters</p>
+      <View><p key = "error" class = "errortext"> Must be a valid a-z or A-Z and non-ascii characters</p></View>
     );
     return returnArray;
   }else {
-    return (<div> Hello, My first user: {this.state.value}</div>);
+    return (<View> Hello, My first user: {this.state.value}</View>);
   }
   }
 }
