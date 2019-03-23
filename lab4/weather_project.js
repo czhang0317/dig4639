@@ -6,7 +6,8 @@ import {
   TextInput,
   AsyncStorage,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import Button from "./Button";
 import * as Expo from "expo";
@@ -136,19 +137,11 @@ class WeatherProject extends Component {
       }
 
   componentDidMount() {
-    this.props.this._getForecastForCoords
-    navigator.geolocation.getCurrentPosition(
-      initialPosition => {
-        this.props.onGetCoords(
-          initialPosition.coords.latitude,
-          initialPosition.coords.longitude
-        );
-      },
-      error => {
-        alert(error.message);
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    let scrollValue = 0;
+    setInterval(function(){
+      scrollValue = scrollValue + 500;   // width = screen width
+      _scrollView.scrollTo({x: scrollValue})
+    }, 3000);
 
     this.timer = setInterval(() =>
     {
@@ -208,7 +201,9 @@ class WeatherProject extends Component {
     }
 
     return (
+
       <PhotoBackdrop image={this.state.newPostImage} >
+
         <View style={styles.overlay}>
           <View style={styles.row}>
             <Text style = {styles.text2}>
@@ -250,6 +245,18 @@ onPress={() => this.props.navigation.navigate('Settings')}>
  </View>
 
         </View>
+        <View>
+    <ScrollView
+     ref={(scrollView) => { _scrollView = scrollView; }}
+     horizontal={true} pagingEnabled={true}
+     >
+       <Image source={require('./assets/1.jpg')} />
+       <Image source={require('./assets/2.jpg')} />
+       <Image source={require('./assets/3.jpg')} />
+       <Image source={require('./assets/4.jpg')} />
+       <Image source={require('./assets/5.jpg')} />
+    </ScrollView>
+    </View>
       </PhotoBackdrop>
     );
   }
@@ -286,7 +293,7 @@ const styles = StyleSheet.create({
   },
   zipCode: { flex: 1 },
   text2: { fontSize: 25,
-color: "gray"
+  color: "white"
   }
 });
 
