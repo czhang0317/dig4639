@@ -32,7 +32,10 @@ export default class HomeScreen extends React.Component {
              keyExtractor={this._keyExtractor}
               renderItem={
                 ({item}) =>
-                <TouchableOpacity onPress={(event) => navigate('Cat1')}>
+                <TouchableOpacity onPress={(event) => {
+                  navigate('Detail',{Title:item.key, Image:item.image});
+                }}>
+
                   <Image source={item.image} style={{width:200,height:200}} />
               </TouchableOpacity>}
             />

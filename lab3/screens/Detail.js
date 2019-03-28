@@ -1,29 +1,22 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet,
+    Image,
+    Text,
+    View,
+    } from 'react-native';
 
-export default class Detail extends React.Component {
-  static navigationOptions = {
-    title: 'Cat Details',
-  };
-
-
+export default class HomeScreen extends React.Component {
   render() {
+    let title = this.props.navigation.getParam
+    ("Title", "Cart1");
+    let image = this.props.navigation.getParam
+    ("Image", undefined);
     return (
-      <ImageBackground
-        style={{ flex: 1 }}
+      <View><Text>{title}</Text><Image source={image} style={{
 
-          source={require('../assets/images/bg.jpg')}
-
-        >
-
-        <View style={styles.MainContainer}>
-          <Image
-source={require('../assets/images/bc.jpg')}
-            style={{ width: 200, height: 200, marginTop: 10 }}
-          />
-          <Text style={styles.TextStyle}>This App will keep updating the images for cats!!</Text>
-        </View>
-      </ImageBackground>
+    resizeMode: 'cover', // or 'stretch',
+    justifyContent: 'center',
+  }}></Image></View>
 
     );
 
