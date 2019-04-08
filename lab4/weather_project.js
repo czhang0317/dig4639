@@ -137,6 +137,31 @@ class WeatherProject extends Component {
       }
 
   componentDidMount() {
+
+    _getCoordinates = () => {
+      navigator.geolocation.getCurrentPosition(
+        initialPosition => {
+          this._getForecastForCoords(
+            initialPosition.coords.latitude,
+            initialPosition.coords.longitude
+
+        )},
+        error => {
+          alert(error.message);
+        },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+    }
+
+
+    _getCoordinates();
+
+    this.myInterval = setInterval( () => {
+        this.setState({
+          curTime : new Date().toLocaleTimeString()
+        })
+      },1000);
+
     let scrollValue = 0;
     setInterval(function(){
       scrollValue = scrollValue + 500;   // width = screen width
@@ -192,6 +217,7 @@ class WeatherProject extends Component {
     if (this.state.forecast !== null) {
       content = (
         <View style={styles.row}>
+<Text style={{ color: "#ffffff", fontSize: 32 }}>{this.state.curTime}</Text>
           <Forecast
             main={this.state.forecast.main}
             temp={this.state.forecast.temp}
@@ -220,7 +246,7 @@ class WeatherProject extends Component {
           </View>
 
           <View style={styles.row}>
-
+<LocationButton onGetCoords={this._getForecastForCoords} />
           </View>
           <View style={styles.row}>
             <Button onPress={this.checkMultiPermissions} label="Choose Image"></Button>
